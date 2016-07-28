@@ -80,8 +80,8 @@ class YIKES_Full_Page_Search {
 	 */
 	public function generate_yikes_full_page_search_container() {
 		// Allow users to override our default template
-		if ( file_exists( get_stylesheet_directory() . '/yikes-full-page-popup/yikes-full-page-search-container.php' ) ) {
-			require_once get_stylesheet_directory() . '/yikes-full-page-popup/yikes-full-page-search-container.php';
+		if ( file_exists( get_stylesheet_directory() . '/yikes-full-page-search/yikes-full-page-search-container.php' ) ) {
+			require_once get_stylesheet_directory() . '/yikes-full-page-search/yikes-full-page-search-container.php';
 		}
 		require_once YIKES_FPS_PATH . 'lib/templates/yikes-full-page-search-container.php';
 	}

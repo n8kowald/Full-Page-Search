@@ -44,7 +44,7 @@ class YIKES_Full_Page_Search_Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu
  *
  * @param string $output Passed by reference.
  */
-function start_lvl(&$output, $depth = 0, $args = array()) {}
+function start_lvl( &$output, $depth = 0, $args = array() ) {}
 
 /**
  * @see Walker_Nav_Menu::end_lvl()
@@ -52,7 +52,7 @@ function start_lvl(&$output, $depth = 0, $args = array()) {}
  *
  * @param string $output Passed by reference.
  */
-function end_lvl(&$output, $depth = 0, $args = array()) {}
+function end_lvl( &$output, $depth = 0, $args = array() ) {}
 
 /**
  * @see Walker::start_el()
@@ -63,8 +63,14 @@ function end_lvl(&$output, $depth = 0, $args = array()) {}
  * @param int $depth Depth of menu item. Used for padding.
  * @param object $args
  */
-function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
+function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+		// Re-set our constant to true (used to display error/notice)
+		if ( ! defined( 'YIKES_FULL_PAGE_SEARCH_MENU_CLASS' ) ) {
+			define( 'YIKES_FULL_PAGE_SEARCH_MENU_CLASS', true );
+		}
+		// Setup the globals
 		global $_wp_nav_menu_max_depth;
+		// Setup the max depth
 		$_wp_nav_menu_max_depth = $depth > $_wp_nav_menu_max_depth ? $depth : $_wp_nav_menu_max_depth;
 
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
@@ -82,30 +88,31 @@ function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
 
 		$original_title = '';
 		if ( 'taxonomy' == $item->type ) {
-				$original_title = get_term_field( 'name', $item->object_id, $item->object, 'raw' );
-				if ( is_wp_error( $original_title ) )
-						$original_title = false;
+			$original_title = get_term_field( 'name', $item->object_id, $item->object, 'raw' );
+			if ( is_wp_error( $original_title ) ) {
+				$original_title = false;
+			}
 		} elseif ( 'post_type' == $item->type ) {
-				$original_object = get_post( $item->object_id );
-				$original_title = $original_object->post_title;
+			$original_object = get_post( $item->object_id );
+			$original_title = $original_object->post_title;
 		}
 
 		$classes = array(
-				'menu-item menu-item-depth-' . $depth,
-				'menu-item-' . esc_attr( $item->object ),
-				'menu-item-edit-' . ( ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? 'active' : 'inactive'),
+			'menu-item menu-item-depth-' . $depth,
+			'menu-item-' . esc_attr( $item->object ),
+			'menu-item-edit-' . ( ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? 'active' : 'inactive'),
 		);
 
 		$title = $item->title;
 
 		if ( ! empty( $item->_invalid ) ) {
-				$classes[] = 'menu-item-invalid';
-				/* translators: %s: title of menu item which is invalid */
-				$title = sprintf( __( '%s (Invalid)' ), $item->title );
+			$classes[] = 'menu-item-invalid';
+			/* translators: %s: title of menu item which is invalid */
+			$title = sprintf( __( '%s (Invalid)' ), $item->title );
 		} elseif ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
-				$classes[] = 'pending';
-				/* translators: %s: title of menu item in draft status */
-				$title = sprintf( __('%s (Pending)'), $item->title );
+			$classes[] = 'pending';
+			/* translators: %s: title of menu item in draft status */
+			$title = sprintf( __('%s (Pending)'), $item->title );
 		}
 
 		$title = empty( $item->label ) ? $title : $item->label;

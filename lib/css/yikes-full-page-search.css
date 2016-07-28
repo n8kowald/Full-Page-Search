@@ -42,7 +42,8 @@
 #search.yikes-full-page-search input[type="search"],
 #search.yikes-full-page-search input[type="search"]:focus {
 	position: absolute;
-	top: 0;
+	height: 150px;
+	top: 49%;
 	bottom: 0;
 	left: 0;
 	right: 0;

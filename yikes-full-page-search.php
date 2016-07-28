@@ -57,7 +57,7 @@ class YIKES_Full_Page_Search {
 	 * @param  [type] $depth   [description]
 	 * @return [type]          [description]
 	 */
-	public function yikes_full_page_search_filter_handler( $classes, $item, $args, $depth ) {
+	public function yikes_full_page_search_filter_handler( $classes, $item, $args = array(), $depth = 1 ) {
 		if ( isset( $item->set_search_link ) && 1 === absint( $item->set_search_link ) ) {
 			$classes[] = 'yikes-full-page-search-toggle';
 		}

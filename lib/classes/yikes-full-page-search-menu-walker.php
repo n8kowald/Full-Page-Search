@@ -29,6 +29,25 @@ function yikes_custom_nav_edit_walker($walker,$menu_id) {
 add_filter( 'wp_edit_nav_menu_walker', 'yikes_custom_nav_edit_walker',10,2 );
 
 /**
+ * Remove the current-menu-item/current_page_item classes from our search items in the menu
+ *	@since 1.0.0
+ */
+function remove_active_class_from_search_menu_item( $classes, $item, $args ) {
+	if ( isset( $item->set_search_link ) && 1 == $item->set_search_link ) {
+		$current_menu_item_key = array_search( 'current-menu-item', $classes );
+		if ( $current_menu_item_key > 0 ) {
+			unset( $classes[ $current_menu_item_key ] );
+		}
+		$current_page_item_key = array_search( 'current_page_item', $classes );
+		if ( $current_page_item_key > 0 ) {
+			unset( $classes[ $current_page_item_key ] );
+		}
+	}
+	return $classes;
+}
+add_filter( 'nav_menu_css_class', 'remove_active_class_from_search_menu_item', 10, 3 );
+
+/**
  * Copied from Walker_Nav_Menu_Edit class in core
  *
  * Create HTML list of nav menu input items.
